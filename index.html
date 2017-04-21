@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="UTF-8">
+  <title>Cocktail Quiz</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+  	<link href="https://fonts.googleapis.com/css?family=Orbitron" rel="stylesheet">
+  <!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script type="text/javascript" async src="https://www.tenor.co/embed.js"></script>
+
+	
+	  <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <!-- <script src="js/bootstrap.min.js"></script> -->
+
+
+   
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+  		<!-- <link rel="stylesheet" type="text/css" href="assets/css/reset.css"> -->
+  	<script src="assets/javascript/app.js"></script>
+</head>
+
+<body>
+
+<header>
+	<h1 id="PageHeader">Cocktail Quiz!</h1>
+</header>
+
+<div class="container MainSection">
+	<div class="row TopSection">
+		
+		<div class="col-md-8" id="QuestionCol">
+		   <div id="QuestionDiv">
+		   	 <div id="Timer"></div>
+		   	 <form id="QuestionForm">
+		   	 		<h2 id="QuestionNum"></h2>
+					<h3 id="QuestionText"></h3>
+					<input class="options" id="option1" type="radio" name="option" value="">
+					<span id="option1Label"></span><br>
+  					<input class="options" id="option2" type="radio" name="option" value="">
+  					<span id="option2Label"></span><br>
+  					<input class="options" id="option3" type="radio" name="option" value=""><span id="option3Label"></span><br>
+  					<input class="options" id="option4" type="radio" name="option" value=""><div id="option4Label"></div>
+		   	 </form>
+		   	 
+		   	 <div id="AnswerDiv"></div>
+		   	 <div id="ScoreDiv"></div>
+		   	 <div id="ButtonsDiv">
+		   	 		<button class="btn btn-primary" id="btnStart">Start Game</button>
+		   	 		<button class="btn btn-primary" id="btnReset">Reset</button>
+		   	 </div>
+		   	
+		   	 </div>
+		   	 </div>
+			<div class="col-md-4" id="QuestionPicDiv">
+				<div class="thumbnail" id="QuestionImgDiv">
+				   <img id="QuestionImg" src="" alt="">
+				</div>   
+			</div>
+	</div>
+
+</div>
+
+<footer class="footer">
+	<div class="container">
+		<p id="PageFooter">&copy;Copyright 2017</p>
+	</div>
+</footer>
+</body>
+
+
+</html>
