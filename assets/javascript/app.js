@@ -7,6 +7,7 @@ var correctCnt=0;
 var incorrectCnt=0;
 var questionIndex=0;
 var intervalId;
+var optionClicked=false;
 
 var arrQuiz=[{  
                 questionText:"Which fortified wine is added to a martini along with gin or vodka?",
@@ -28,20 +29,20 @@ var arrQuiz=[{
                 answerText:"<p>Made famous thanks to frequent appearances on \"Sex and the City,\" the cosmopolitan consists of vodka, triple sec, cranberry and lime.</p>",
                 imageSrc:"assets/images/cosmo.jpg"   
               }
-              // ,{
-              //   questionText:"",
-              //   questionOptions:["","","",""] ,
-              //   answer:"",
-              //   answerText:"",
-                // imageSrc:""   
-              // }
-              // ,{
-              //   questionText:"",
-              //   questionOptions:["","","",""] ,
-              //   answer:"",
-              //   answerText:"" ,
-                // imageSrc:"" 
-              // }
+              ,{
+                questionText:"What drink would you have if you combined gin, lemon juice, sugar and seltzer?",
+                questionOptions:["margarita","americano","Tom Collins","gin fizz"],
+                answer:"Tom Collins",
+                answerText:"The gin-based Tom Collins was created back in 1874, inspired by a popular bar prank of the day. Looking for something slightly different? Swap the gin for whiskey, and you've got yourself a John Collins.",
+                imageSrc:"assets/images/tom_collins.jpg"   
+              }
+              ,{
+                questionText:"What beverage also goes by the names red snapper and bucket of blood?",
+                questionOptions:["tequila sunrise", "Bloody Mary", "seabreeze","michelada"] ,
+                answer:"Bloody Mary",
+                answerText:"Crafted from a mix of vodka, tomato juice and various spices, the Bloody Mary once went by the less-than-appetizing title of bucket of blood. Some restaurants still refer to this morning-after favorite as a red snapper as well.",
+                imageSrc:"assets/images/bloody_mary.jpg" 
+              }
               // ,{
               //   questionText:"",
               //   questionOptions:["","","",""] ,
@@ -140,8 +141,8 @@ var arrQuiz=[{
           incorrectCnt++;
           
           if (questionIndex - 1 < totalQuestions) {
-            $("#AnswerDiv").html("<span>Incorrect answer. </span>" + arrQuiz[questionIndex-1].answerText);
-            $("#ScoreDiv").html(correctCnt + " out of " + (questionIndex) + " questions correct");
+            $("#AnswerDiv").html("<span>Incorrect answer. Correct answer is " + arrQuiz[questionIndex-1].answer + ". " + arrQuiz[questionIndex-1].answerText + "</span>");
+            // $("#ScoreDiv").html(correctCnt + " out of " + (questionIndex) + " questions correct");
           
           setTimeout(nextQuestion,questionInterval);
           }
@@ -183,9 +184,9 @@ function startGame()  {
    $("#QuestionDiv").css("background","skyblue");
    $("#QuestionPicDiv").css("background","skyblue");
    $("#QuestionImg").css("background","skyblue");
-    $("#QuestionDiv").css("background","skyblue");
-    $(".options").css("display","inline");
-    $("#ScoreDiv").text("0 out of 0 questions correct");
+   $("#QuestionDiv").css("background","skyblue");
+   $(".options").css("display","inline");
+   $("#ScoreDiv").text("");
    nextQuestion();
    $("#btnStart").css("display","none");
 };
@@ -194,7 +195,7 @@ function startGame()  {
 function nextQuestion() {
     console.log(questionIndex);
    if (questionIndex < (totalQuestions)) {
-
+       optionClicked=false;
        var questionNum=questionIndex+1
 
     // $("#Timer").text("Time remaining: 00:10 seconds");
@@ -217,21 +218,74 @@ function nextQuestion() {
       $("#AnswerDiv").html("");
     
       $("#btnReset").css("display","inline");
-      
+      questionIndex++;
       timer.reset();
       timer.start();
-      questionIndex++;
    }
    else {
      timer.stop();
+     timer.reset();
+     $("#ScoreDiv").html("<p>Game over!</p> <p>You answered " + correctCnt + " out of " + (questionIndex) + " questions correctly.</p> <p>Click Reset button to start over.</p>");
    }
 
 };
 
+var optionClick=function() {
+  if (optionClicked === false) {
+  optionClicked = true;  
+  timer.stop();
+  
+  if ($(this).attr("value") === arrQuiz[questionIndex-1].answer) {
+     correctCnt++;
+     $("#AnswerDiv").html("<span>Correct answer! " + arrQuiz[questionIndex-1].answerText) + "</span>";
+    }
+  else {
+     incorrectCnt++;
+     $("#AnswerDiv").html("<span>Incorrect answer. Correct answer is " + arrQuiz[questionIndex-1].answer + ". " + arrQuiz[questionIndex-1].answerText + "</span>");
+    }
+
+
+  
+    timer.reset();
+   
+   if (questionIndex-1 < totalQuestions) {
+          setTimeout(nextQuestion,questionInterval);
+          }
+          // timer.reset
+      else {
+          $("#ScoreDiv").html("<p>Game over!</p> <p>You answered " + correctCnt + " out of " + (questionIndex) + " questions correctly.</p> <p>Click Reset button to start over.</p>");
+          }
+
+}
+};
+ 
+
+$(".options").click(optionClick);
 $("#btnStart").click(startGame);
 $("#btnReset").on("click", function() {
-      location.reload();
-   });
+      timer.stop();
+      questionIndex = totalQuestions;
+      // timer.reset();
+    
+      // $("#QuestionForm").trigger("reset");
+     
+      $("#QuestionPicDiv").css("background","none");
+      $("#QuestionImg").css("background","none");
+      $("#QuestionImg").attr("src","");
+      $(".options").css("display","none");
+      $("#btnStart").css("display","inline");
+      $("#btnReset").css("display","none");
+      $("#QuestionDiv").css("background","none");
+      $("#QuestionNum").html("");
+      $("#QuestionText").html("");
+      $("#option1").html("");
+      $("#option2").html("");
+      $("#option3").html("");
+      $("#option4").html("");
+        $("#ScoreDiv").html("");
+      $("#AnswerDiv").html("");
+      $("#Timer").text("");
+ });
 
 });
 
