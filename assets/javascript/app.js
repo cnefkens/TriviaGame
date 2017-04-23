@@ -8,6 +8,7 @@ var incorrectCnt=0;
 var questionIndex=0;
 var intervalId;
 var optionClicked=false;
+var boolReset=false;
 
 var arrQuiz=[{  
                 questionText:"Which fortified wine is added to a martini along with gin or vodka?",
@@ -43,77 +44,77 @@ var arrQuiz=[{
                 answerText:"Crafted from a mix of vodka, tomato juice and various spices, the Bloody Mary once went by the less-than-appetizing title of bucket of blood. Some restaurants still refer to this morning-after favorite as a red snapper as well.",
                 imageSrc:"assets/images/bloody_mary.jpg" 
               }
-              // ,{
-              //   questionText:"",
-              //   questionOptions:["","","",""] ,
-              //   answer:"",
-              //   answerText:"" ,
-                // imageSrc:"" 
-              // }
-              // ,={
-              //   questionText:"",
-              //   questionOptions:["","","",""] ,
-              //   answer:"",
-              //   answerText:"" ,
-                // imageSrc:""  
-              // }
-              // ,{
-              //   questionText:"",
-              //   questionOptions:["","","",""] ,
-              //   answer:"",
-              //   answerText:"" ,
-                // imageSrc:""  
-              // }
-              // ,{
-              //   questionText:"",
-              //   questionOptions:["","","",""] ,
-              //   answer:"",
-              //   answerText:"",
-                // imageSrc:""   
-              // }
-              // ,{
-              //   questionText:"",
-              //   questionOptions:["","","",""] ,
-              //   answer:"",
-              //   answerText:"",
-                // imageSrc:""   
-              // }
-              // ,{
-              //   questionText:"",
-              //   questionOptions:["","","",""] ,
-              //   answer:"",
-              //   answerText:"",
-                // imageSrc:""   
-              // }
-              // ,{
-              //   questionText:"",
-              //   questionOptions:["","","",""] ,
-              //   answer:"",
-              //   answerText:"",
-                // imageSrc:""   
-              // }
-              // ,{
-              //   questionText:"",
-              //   questionOptions:["","","",""] ,
-              //   answer:"",
-              //   answerText:"",
-                // imageSrc:""   
-              // }
-              // ,{
-              //   questionText:"",
-              //   questionOptions:["","","",""] ,
-              //   answer:"",
-              //   answerText:"",
-                // imageSrc:""   
-              // }
-              // ,{
-              //   questionText:"",
-              //   questionOptions:["","","",""] ,
-              //   answer:"",
-              //   answerText:"",
-                // imageSrc:""   
-              // }   
-              // }
+              ,{
+                questionText:"What South Pacific inspired cocktail's ingredients include lime juice, orange curacao, almond syrup, and rum?",
+                questionOptions:["mai tai", "pina colada", "rum runner", "bahama mama"] ,
+                answer:"mai tai",
+                answerText:"The mai tai -- Tahitian for \"the very best\" -- consists of rum, lime, orange curacao and almond syrup." ,
+                imageSrc:"assets/images/mai_tai.jpg" 
+              }
+              ,{
+                questionText:"What sweet red syrup would you pair with tequila to make a tequila sunrise?",
+                questionOptions:["orgeat", "grenadine", "Campari", "Sambuca"] ,
+                answer:"grenadine",
+                answerText:"Layers of grenadine, tequila and orange juice team up to create a tequila sunrise." ,
+                imageSrc:"assets/images/tequila_sunrise.jpg"  
+              }
+              ,{
+                questionText:"What liquor can be found in a mojito?",
+                questionOptions:["gin","vodka","rum","whiskey"] ,
+                answer:"rum",
+                answerText:"The minty-fresh mojito is made using rum, lime, sugar, mint and soda water." ,
+                imageSrc:"assets/images/mojito.jpg"  
+              }
+              ,{
+                questionText:"Which classic cocktail is made from cognac, triple sec and lime?",
+                questionOptions:["americano","old fashioned","manhattan","sidecar"] ,
+                answer:"sidecar",
+                answerText:"The sidecar, a Prohibition-era beverage, contains cognac, triple sec and lime.",
+                imageSrc:"assets/images/sidecar.jpeg"   
+              }
+              ,{
+                questionText:"What’s the difference between a white and black Russian?",
+                questionOptions:["use of heavy cream","addition of freshly brewed coffee","serving temperature","molasses"] ,
+                answer:"use of heavy cream",
+                answerText:"The white Russian, a drink made famous in the 1998 film \"The Big Lebowski,\" consists of vodka, coffee liqueur and heavy cream. Want to make it a black Russian instead? Simply leave out the cream.",
+                imageSrc:"assets/images/white_russian.jpg"   
+              }
+              ,{
+                questionText:"Which of the following liquors is NOT traditionally found in a Long Island iced tea",
+                questionOptions:["rum","vodka","gin","whiskey"],
+                answer:"whiskey",
+                answerText:"The alcohol-heavy Long Island iced tea contains vodka, gin, rum, tequila and triple sec, with lemon juice, simple syrup and a dash of cola added to complement all that alcohol.",
+                imageSrc:"assets/images/long_island_iced_tea.jpg"   
+              }
+            
+              ,{
+                questionText:"Which of the following drinks shares the name of a beach and an iron mine near Santiago, Cuba?",
+                questionOptions:["Cuba Libre","Daiquiri","Playa Azul","Oro Blanco"] ,
+                answer:"Daiquiri",
+                answerText:"The Daiquiri was supposedly invented by American mining engineers in Santiago, Cuba around 1905. A Daiquiri contains white rum, lime juice, Gomme syrup and cracked or crushed ice. Variations of Daiquiri include the Strawberry and Banana Daiquiri.",
+                imageSrc:"assets/images/daiquiri.jpg"   
+              }
+                ,{
+                questionText:"What ingredient is added to gin, simple syrup, lemon juice, and a lemon twist to make a French 75?",
+                questionOptions:["chardonnary","champagne","cassis","lillet"] ,
+                answer:"champagne",
+                answerText:"The recipe for the French 75 first appeared in the 1919 edition of Harry MacElhone’s 'Harry’s ABC of Mixing Cocktails'. As the story goes, a bartender took the Tom Collins recipe and substituted champagne for soda.",
+                imageSrc:"assets/images/french75.jpg"   
+              }  
+              ,{
+                questionText:"What drink was originally known as the milano-torino when it was created around the time of Prohibition?",
+                questionOptions:["Manhattan", "mai tai", "americano","aperol spritz"] ,
+                answer:"americano",
+                answerText:"The Campari used in the americano comes from Milan, while the sweet vermouth hails from Torino, Italy, giving the americano its original moniker.",
+                imageSrc:"assets/images/americano.jpg"   
+              }
+               ,{
+                questionText:"What liquor traditionally serves as the base in a Manhattan?",
+                questionOptions:["rum","vodka","whiskey","scotch"] ,
+                answer:"whiskey",
+                answerText:"A classic Manhattan contains bourbon whiskey, vermouth and bitters, with a cherry on top for luck.",
+                imageSrc:"assets/images/manhattan.jpg"   
+              }
               ];
 
  var totalQuestions=arrQuiz.length;
@@ -135,25 +136,32 @@ var arrQuiz=[{
   },
   
   count: function() {
+    if (boolReset===false) {  
       if (timer.time === 0) {
           timer.stop();
           timer.reset();
           incorrectCnt++;
           
           if (questionIndex - 1 < totalQuestions) {
-            $("#AnswerDiv").html("<span>Incorrect answer. Correct answer is " + arrQuiz[questionIndex-1].answer + ". " + arrQuiz[questionIndex-1].answerText + "</span>");
+            $("#AnswerDiv").html("<b>Incorrect answer.</b><p>Correct answer is " + arrQuiz[questionIndex-1].answer + ". " + arrQuiz[questionIndex-1].answerText + "</p>");
             // $("#ScoreDiv").html(correctCnt + " out of " + (questionIndex) + " questions correct");
           
           setTimeout(nextQuestion,questionInterval);
           }
-          // timer.reset;
-        }  
-      else {
+        }
+          // timer.reset;  
+      else { 
           timer.time--;
           var result = timer.timeConverter(timer.time);
           $("#Timer").html("<p>Time Remaining: " + result + " seconds</p>");
           }
-  },
+  }
+  else {
+    timer.stop();
+    timer.reset();
+  }
+  }
+,
 
   timeConverter: function(t) {
 
@@ -180,23 +188,33 @@ var arrQuiz=[{
 
 
 function startGame()  {
-   questionIndex = 0;
+  timer.stop();
+  timer.reset();
+  boolReset=false;
+  correctCnt = 0;
+  incorrectCnt = 0;
+  questionIndex = 0;
+  optionClicked = false;
    $("#QuestionDiv").css("background","skyblue");
    $("#QuestionPicDiv").css("background","skyblue");
    $("#QuestionImg").css("background","skyblue");
    $("#QuestionDiv").css("background","skyblue");
    $(".options").css("display","inline");
    $("#ScoreDiv").text("");
+
    nextQuestion();
+
    $("#btnStart").css("display","none");
 };
 
 
 function nextQuestion() {
-    console.log(questionIndex);
+    // console.log(questionIndex);
+  if (boolReset === false) {  
    if (questionIndex < (totalQuestions)) {
        optionClicked=false;
-       var questionNum=questionIndex+1
+       timer.reset();
+       var questionNum=questionIndex+1;
 
     // $("#Timer").text("Time remaining: 00:10 seconds");
      $("#Timer").html("<p>Time Remaining: " + timer.timeConverter(timeout) + " seconds</p>");
@@ -219,41 +237,57 @@ function nextQuestion() {
     
       $("#btnReset").css("display","inline");
       questionIndex++;
-      timer.reset();
       timer.start();
    }
+
    else {
+     optionClicked = false;
      timer.stop();
      timer.reset();
-     $("#ScoreDiv").html("<p>Game over!</p> <p>You answered " + correctCnt + " out of " + (questionIndex) + " questions correctly.</p> <p>Click Reset button to start over.</p>");
+     $("#ScoreDiv").html("<p><b>Game over!</b></p><p>You answered " + correctCnt + " out of " + (questionIndex) + " questions correctly. Click Reset button to start over.</p>");
    }
+ }
+ else {
+     // alert ("reset next question");
+     correctCnt=0;
+      incorrectCnt=0;
+      questionIndex=0;
+      optionClicked=false;
+      timer.stop();
+     timer.reset();
+   }  
+    // optionClicked=false;
+    // boolReset=false;
 
 };
 
 var optionClick=function() {
   if (optionClicked === false) {
-  optionClicked = true;  
-  timer.stop();
-  
+    optionClicked = true;
+    timer.stop();
+ 
   if ($(this).attr("value") === arrQuiz[questionIndex-1].answer) {
      correctCnt++;
-     $("#AnswerDiv").html("<span>Correct answer! " + arrQuiz[questionIndex-1].answerText) + "</span>";
+     $("#AnswerDiv").html("<b>Correct answer!</b><p> " + arrQuiz[questionIndex-1].answerText) + "</p>";
     }
   else {
      incorrectCnt++;
-     $("#AnswerDiv").html("<span>Incorrect answer. Correct answer is " + arrQuiz[questionIndex-1].answer + ". " + arrQuiz[questionIndex-1].answerText + "</span>");
+     $("#AnswerDiv").html("<b>Incorrect answer.</b><p>Correct answer is " + arrQuiz[questionIndex-1].answer + ". " + arrQuiz[questionIndex-1].answerText + "</p>");
     }
 
 
   
     timer.reset();
    
-   if (questionIndex-1 < totalQuestions) {
+   if (questionIndex-1 < totalQuestions && boolReset === false) {
           setTimeout(nextQuestion,questionInterval);
           }
           // timer.reset
       else {
-          $("#ScoreDiv").html("<p>Game over!</p> <p>You answered " + correctCnt + " out of " + (questionIndex) + " questions correctly.</p> <p>Click Reset button to start over.</p>");
+            boolReset=true;
+            timer.stop();
+            timer.reset();
+          $("#ScoreDiv").html("<p><b>Game over!</b></p?<p>You answered " + correctCnt + " out of " + (questionIndex) + " questions correctly. Click Reset button to start over.</p>");
           }
 
 }
@@ -263,28 +297,40 @@ var optionClick=function() {
 $(".options").click(optionClick);
 $("#btnStart").click(startGame);
 $("#btnReset").on("click", function() {
+      boolReset=true;
+      correctCnt=0;
+      incorrectCnt=0;
+      questionIndex=0;
       timer.stop();
-      questionIndex = totalQuestions;
-      // timer.reset();
-    
+      timer.time=0;
+      optionClicked=false;
+      
+      
+
       // $("#QuestionForm").trigger("reset");
      
       $("#QuestionPicDiv").css("background","none");
       $("#QuestionImg").css("background","none");
       $("#QuestionImg").attr("src","");
-      $(".options").css("display","none");
-      $("#btnStart").css("display","inline");
-      $("#btnReset").css("display","none");
       $("#QuestionDiv").css("background","none");
       $("#QuestionNum").html("");
       $("#QuestionText").html("");
-      $("#option1").html("");
-      $("#option2").html("");
-      $("#option3").html("");
-      $("#option4").html("");
+      $("#option1").text("");
+      $("#option2").text("");
+      $("#option3").text("");
+      $("#option4").text("");
+      $("#option1Label").text("");
+      $("#option2Label").text("");
+      $("#option3Label").text("");
+      $("#option4Label").text("");
+      $(".options").css("display","none");
         $("#ScoreDiv").html("");
       $("#AnswerDiv").html("");
       $("#Timer").text("");
+       $("#btnStart").css("display","inline");
+       timer.reset();
+      $("#btnReset").css("display","none");
+      
  });
 
 });
