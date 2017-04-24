@@ -7,6 +7,7 @@ var correctCnt=0;
 var incorrectCnt=0;
 var questionIndex=0;
 var intervalId;
+var timeoutId;
 var optionClicked=false;
 var boolReset=false;
 
@@ -124,44 +125,50 @@ var arrQuiz=[{
   time: timeout,
 
   reset: function() {
+    // console.log("reset");
     timer.time = timeout;
   },
 
   start: function() {
+    // console.log("start");
     intervalId = setInterval(timer.count,1000);
   },
   
   stop: function() {
+    // console.log('stop timer');
     clearInterval(intervalId);
   },
   
   count: function() {
     if (boolReset===false) {  
       if (timer.time === 0) {
+          
           timer.stop();
           timer.reset();
+          
           incorrectCnt++;
-          
+          // console.log("Question Index: " + questionIndex);
           if (questionIndex - 1 < totalQuestions) {
-            $("#AnswerDiv").html("<b>Incorrect answer.</b><p>Correct answer is " + arrQuiz[questionIndex-1].answer + ". " + arrQuiz[questionIndex-1].answerText + "</p>");
-            // $("#ScoreDiv").html(correctCnt + " out of " + (questionIndex) + " questions correct");
-          
-          setTimeout(nextQuestion,questionInterval);
-          }
+              
+              $("#AnswerDiv").html("<b>Incorrect answer.</b><p>Correct answer is " + arrQuiz[questionIndex-1].answer + ". " + arrQuiz[questionIndex-1].answerText + "</p>");
+          // console.log(timeoutId);
+              timeoutId=setTimeout(nextQuestion,questionInterval);
+            }
         }
           // timer.reset;  
       else { 
-          timer.time--;
-          var result = timer.timeConverter(timer.time);
-          $("#Timer").html("<p>Time Remaining: " + result + " seconds</p>");
+          // console.log("Timer time:" + timer.time);
+            timer.time--;
+          
+            var result = timer.timeConverter(timer.time);
+          
+            $("#Timer").html("<p>Time Remaining: " + result + " seconds</p>");
           }
-  }
+    }
   else {
-    timer.stop();
-    timer.reset();
-  }
-  }
-,
+     ResetGame();
+    }
+  },
 
   timeConverter: function(t) {
 
@@ -188,13 +195,19 @@ var arrQuiz=[{
 
 
 function startGame()  {
+  
   timer.stop();
+  
   timer.reset();
+  
+  clearTimeout(timeoutId);
+  
   boolReset=false;
   correctCnt = 0;
   incorrectCnt = 0;
   questionIndex = 0;
   optionClicked = false;
+  
    $("#QuestionDiv").css("background","skyblue");
    $("#QuestionPicDiv").css("background","skyblue");
    $("#QuestionImg").css("background","skyblue");
@@ -209,129 +222,155 @@ function startGame()  {
 
 
 function nextQuestion() {
-    // console.log(questionIndex);
+    
   if (boolReset === false) {  
-   if (questionIndex < (totalQuestions)) {
-       optionClicked=false;
+    
+    if (questionIndex < (totalQuestions)) {
+       
        timer.reset();
+       
+       clearTimeout(timeoutId);
+       
        var questionNum=questionIndex+1;
 
-    // $("#Timer").text("Time remaining: 00:10 seconds");
-     $("#Timer").html("<p>Time Remaining: " + timer.timeConverter(timeout) + " seconds</p>");
-     $("#QuestionNum").text("Question " + questionNum + ":");
-     $("#QuestionText").html(arrQuiz[questionIndex].questionText);
-     $("#option1Label").html("&nbsp" + arrQuiz[questionIndex].questionOptions[0]);
-     $("#option1").attr("value",arrQuiz[questionIndex].questionOptions[0]);
-     $("#option1").attr("checked",false);
-     $("#option2Label").html("&nbsp" + arrQuiz[questionIndex].questionOptions[1]);
-     $("#option2").attr("value",arrQuiz[questionIndex].questionOptions[1]);
-     $("#option2").attr("checked",false);
-     $("#option3Label").html("&nbsp" + arrQuiz[questionIndex].questionOptions[2]);
-     $("#option3").attr("value",arrQuiz[questionIndex].questionOptions[2]);
-     $("#option3").attr("checked",false);
-     $("#option4Label").html("&nbsp" + arrQuiz[questionIndex].questionOptions[3]);
-     $("#option4").attr("value",arrQuiz[questionIndex].questionOptions[3]);
-     $("#option4").attr("checked",false);
-     $("#QuestionImg").attr("src",arrQuiz[questionIndex].imageSrc);
-      $("#AnswerDiv").html("");
+        $("#Timer").html("<p>Time Remaining: " + timer.timeConverter(timeout) + " seconds</p>");
+        $("#QuestionNum").text("Question " + questionNum + ":");
+        $("#QuestionText").html(arrQuiz[questionIndex].questionText);
+        $("#option1Label").html("&nbsp" + arrQuiz[questionIndex].questionOptions[0]);
+        $("#option1").attr("value",arrQuiz[questionIndex].questionOptions[0]);
+        $("#option1").attr("checked",false);
+        $("#option2Label").html("&nbsp" + arrQuiz[questionIndex].questionOptions[1]);
+        $("#option2").attr("value",arrQuiz[questionIndex].questionOptions[1]);
+        $("#option2").attr("checked",false);
+        $("#option3Label").html("&nbsp" + arrQuiz[questionIndex].questionOptions[2]);
+        $("#option3").attr("value",arrQuiz[questionIndex].questionOptions[2]);
+        $("#option3").attr("checked",false);
+        $("#option4Label").html("&nbsp" + arrQuiz[questionIndex].questionOptions[3]);
+        $("#option4").attr("value",arrQuiz[questionIndex].questionOptions[3]);
+        $("#option4").attr("checked",false);
+        $("#QuestionImg").attr("src",arrQuiz[questionIndex].imageSrc);
+        $("#AnswerDiv").html("");
     
-      $("#btnReset").css("display","inline");
-      questionIndex++;
-      timer.start();
+        $("#btnReset").css("display","inline");
+      
+        questionIndex++;
+      
+        timer.start();
+      
+        optionClicked=false;
    }
 
    else {
-     optionClicked = false;
-     timer.stop();
-     timer.reset();
-     $("#ScoreDiv").html("<p><b>Game over!</b></p><p>You answered " + correctCnt + " out of " + (questionIndex) + " questions correctly. Click Reset button to start over.</p>");
+      
+      optionClicked = true;
+     
+      timer.stop();
+      
+      timer.reset();
+      
+      clearTimeout(timeoutId);
+      
+       $("#ScoreDiv").html("<p><b>Game over!</b></p><p>You answered " + correctCnt + " out of " + (questionIndex) + " questions correctly. Click Reset button to start over.</p>");    
    }
  }
+ 
  else {
-     // alert ("reset next question");
-     correctCnt=0;
-      incorrectCnt=0;
-      questionIndex=0;
-      optionClicked=false;
-      timer.stop();
-     timer.reset();
+     
+     ResetGame();    
    }  
-    // optionClicked=false;
-    // boolReset=false;
+
 
 };
 
 var optionClick=function() {
-  if (optionClicked === false) {
-    optionClicked = true;
-    timer.stop();
- 
-  if ($(this).attr("value") === arrQuiz[questionIndex-1].answer) {
-     correctCnt++;
-     $("#AnswerDiv").html("<b>Correct answer!</b><p> " + arrQuiz[questionIndex-1].answerText) + "</p>";
-    }
-  else {
-     incorrectCnt++;
-     $("#AnswerDiv").html("<b>Incorrect answer.</b><p>Correct answer is " + arrQuiz[questionIndex-1].answer + ". " + arrQuiz[questionIndex-1].answerText + "</p>");
-    }
-
-
   
-    timer.reset();
-   
-   if (questionIndex-1 < totalQuestions && boolReset === false) {
-          setTimeout(nextQuestion,questionInterval);
-          }
-          // timer.reset
+  if (optionClicked === false) {
+    
+      optionClicked = true;
+      
+      timer.stop();
+      timer.reset();
+      clearTimeout(timeoutId);
+  
+      if ($(this).attr("value") === arrQuiz[questionIndex-1].answer) {
+        
+          correctCnt++;
+        
+          $("#AnswerDiv").html("<b>Correct answer!</b><p> " + arrQuiz[questionIndex-1].answerText) + "</p>";
+        }
+    
       else {
-            boolReset=true;
-            timer.stop();
-            timer.reset();
-          $("#ScoreDiv").html("<p><b>Game over!</b></p?<p>You answered " + correctCnt + " out of " + (questionIndex) + " questions correctly. Click Reset button to start over.</p>");
+        
+          incorrectCnt++;
+        
+          $("#AnswerDiv").html("<b>Incorrect answer.</b><p>Correct answer is " + arrQuiz[questionIndex-1].answer + ". " + arrQuiz[questionIndex-1].answerText + "</p>");
+        }
+   
+      if (questionIndex-1 < totalQuestions && boolReset === false) {
+          
+          timeoutId=setTimeout(nextQuestion,questionInterval);
+          
           }
-
-}
+      else if (questionIndex-1 >= totalQuestions && boolReset === false) {
+          timer.stop();
+            
+          timer.reset();
+            
+          clearTimeout(timeoutId);
+            
+          $("#ScoreDiv").html("<p><b>Game over!</b></p?<p>You answered " + correctCnt + " out of " + (questionIndex) + " questions correctly. Click Reset button to start over.</p>");
+        }
+  }
 };
  
 
 $(".options").click(optionClick);
-$("#btnStart").click(startGame);
-$("#btnReset").on("click", function() {
-      boolReset=true;
-      correctCnt=0;
-      incorrectCnt=0;
-      questionIndex=0;
-      timer.stop();
-      timer.time=0;
-      optionClicked=false;
-      
-      
 
-      // $("#QuestionForm").trigger("reset");
-     
-      $("#QuestionPicDiv").css("background","none");
-      $("#QuestionImg").css("background","none");
-      $("#QuestionImg").attr("src","");
-      $("#QuestionDiv").css("background","none");
-      $("#QuestionNum").html("");
-      $("#QuestionText").html("");
-      $("#option1").text("");
-      $("#option2").text("");
-      $("#option3").text("");
-      $("#option4").text("");
-      $("#option1Label").text("");
-      $("#option2Label").text("");
-      $("#option3Label").text("");
-      $("#option4Label").text("");
-      $(".options").css("display","none");
-        $("#ScoreDiv").html("");
-      $("#AnswerDiv").html("");
-      $("#Timer").text("");
-       $("#btnStart").css("display","inline");
-       timer.reset();
-      $("#btnReset").css("display","none");
-      
+$("#btnStart").click(startGame);
+
+$("#btnReset").on("click", function() {
+    
+    boolReset=true;
+    
+    if (questionIndex>=totalQuestions) {
+    
+        ResetGame();
+      }
+
  });
+
+function ResetGame() {
+  correctCnt=0;
+  incorrectCnt=0;
+  questionIndex=totalQuestions;
+  optionClicked=true;
+  
+  timer.stop();
+  
+  timer.reset();
+  
+  clearTimeout(timeoutId);
+  
+  $("#QuestionPicDiv").css("background","none");
+  $("#QuestionImg").css("background","none");
+  $("#QuestionImg").attr("src","");
+  $("#QuestionDiv").css("background","none");
+  $("#QuestionNum").html("");
+  $("#QuestionText").html("");
+  $("#option1").text("");
+  $("#option2").text("");
+  $("#option3").text("");
+  $("#option4").text("");
+  $("#option1Label").text("");
+  $("#option2Label").text("");
+  $("#option3Label").text("");
+  $("#option4Label").text("");
+  $(".options").css("display","none");
+  $("#ScoreDiv").html("");
+  $("#AnswerDiv").html("");
+  $("#btnStart").css("display","inline");
+  $("#btnReset").css("display","none");
+}
 
 });
 
